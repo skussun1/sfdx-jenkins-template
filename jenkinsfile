@@ -29,16 +29,16 @@ pipeline {
         // -------------------------------------------------------------------------
         // Create Manifest
         // -------------------------------------------------------------------------
-        stage('CreateManifest') {
-            steps {
-                script {
-                    rc = command 'sfdx force:source:manifest:create --sourcepath force-app --manifestname manifest'
-                    if (rc != 0) {
-                        currentBuild.result = "FAILURE"
-                    }
-                }
-            }
-        }
+        // stage('CreateManifest') {
+        //     steps {
+        //         script {
+        //             rc = command 'sfdx force:source:manifest:create --sourcepath force-app --manifestname manifest'
+        //             if (rc != 0) {
+        //                 currentBuild.result = "FAILURE"
+        //             }
+        //         }
+        //     }
+        // }
 
         // -------------------------------------------------------------------------
         // Deploy
@@ -46,7 +46,7 @@ pipeline {
         stage('Deploy') {
             steps {
                 script {
-                    rc = command 'sfdx force:source:deploy --manifest manifest.xml --targetusername $ALIAS'
+                    rc = command 'sfdx force:source:deploy --manifest manifest/package.xml --targetusername $ALIAS'
                     if (rc != 0) {
                         currentBuild.result = "FAILURE"
                     }
@@ -86,6 +86,11 @@ pipeline {
                     sh returnStatus: true, script: "sfdx force:apex:test:report --testrunid ${testRunId} --resultformat human --targetusername ${ALIAS}"
                 }
             }
+        }
+    }
+    post {
+        success {
+            cleanWs()
         }
     }
 }
