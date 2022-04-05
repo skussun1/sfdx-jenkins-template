@@ -43,7 +43,7 @@ pipeline {
         // -------------------------------------------------------------------------
         // Deploy
         // -------------------------------------------------------------------------
-        stage('CreateManifest') {
+        stage('Deploy') {
             steps {
                 script {
                     rc = command 'sfdx force:source:deploy --manifest manifest.xml --targetusername $ALIAS'
