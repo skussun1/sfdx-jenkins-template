@@ -48,7 +48,7 @@ pipeline {
         stage('Deploy') {
             steps {
                 script {
-                    rc = command 'sfdx force:source:deploy --manifest manifest/package.xml --targetusername $ALIAS'
+                    rc = command 'sfdx force:source:deploy --manifest manifest.xml --targetusername $ALIAS'
                     if (rc != 0) {
                         currentBuild.result = "FAILURE"
                     }
