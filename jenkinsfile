@@ -1,6 +1,8 @@
 pipeline {
     agent any
 
+    tools { nodejs "node" }
+
     // 定数や変数を定義する
     environment {
         SF_INSTANCE_URL = "https://login.salesforce.com"
@@ -29,16 +31,16 @@ pipeline {
         // -------------------------------------------------------------------------
         // Create Manifest
         // -------------------------------------------------------------------------
-        // stage('CreateManifest') {
-        //     steps {
-        //         script {
-        //             rc = command 'sfdx force:source:manifest:create --sourcepath force-app --manifestname manifest'
-        //             if (rc != 0) {
-        //                 currentBuild.result = "FAILURE"
-        //             }
-        //         }
-        //     }
-        // }
+        stage('CreateManifest') {
+            steps {
+                script {
+                    rc = command 'sfdx force:source:manifest:create --sourcepath force-app --manifestname manifest'
+                    if (rc != 0) {
+                        currentBuild.result = "FAILURE"
+                    }
+                }
+            }
+        }
 
         // -------------------------------------------------------------------------
         // Deploy
