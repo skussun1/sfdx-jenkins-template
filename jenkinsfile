@@ -85,16 +85,17 @@ pipeline {
                         echo "Test run status is \"${status}\" with ${completed} of ${enqueued} methods run (${failed} methods failed) after ${totalSleeps} one minute sleeps"
                     }
 
-                    sh returnStatus: true, script: "sfdx force:apex:test:report --testrunid ${testRunId} --resultformat human --targetusername ${ALIAS}"
+                    sh returnStatus: true, script: "sfdx force:apex:test:report --testrunid ${testRunId} --resultformat junit --targetusername ${ALIAS} >& junit_output.xml"
+                    junit 'junit_output.xml'
                 }
             }
         }
     }
-    post {
-        success {
-            cleanWs()
-        }
-    }
+    //post {
+    //    success {
+    //        cleanWs()
+    //    }
+    //}
 }
 
 def command(script) {
